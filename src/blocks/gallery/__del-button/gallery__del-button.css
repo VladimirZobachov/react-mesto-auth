@@ -1,0 +1,14 @@
+.gallery__del-button{
+    position: absolute;
+    display: none;
+    width: 16px;
+    height: 18px;
+    margin: 10px 0 0 250px;
+    background-image: url("../../../images/trash.svg");
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+}
+.gallery__del-button:hover{
+    opacity: 0.8;
+}

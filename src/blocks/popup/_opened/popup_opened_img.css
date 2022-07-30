@@ -1,0 +1,7 @@
+.popup_opened_img{
+    display: grid;
+    background-color: rgba(0, 0, 0, 0.9);
+    visibility: visible;
+    opacity: 1;
+    z-index: 0;
+}

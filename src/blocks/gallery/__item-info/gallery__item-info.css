@@ -1,0 +1,7 @@
+.gallery__item-info{
+    display: flex;
+    max-width: 90%;
+    margin: 7% auto;
+    align-items: center;
+    justify-content: space-between;
+}
