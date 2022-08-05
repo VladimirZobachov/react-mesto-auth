@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
+import * as apiAuth from "./apiAuth";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -24,6 +25,10 @@ function App() {
     const [currentUser, setCurrentUser] = useState('');
     const [cards, setCards] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState({
+        email: '',
+        password: '',
+    })
     const history = useHistory();
 
     useEffect(()=>{
@@ -145,8 +150,45 @@ function App() {
 
     }
 
-    function onLogin(){
+    const tokenCheck = () => {
+      const jwt = localStorage.getItem('jwt');
+      if(jwt){
+          return;
+      }
+      apiAuth.getContent(jwt)
+          .then(({email, password}) => {
+              setUserInfo({email, password});
+              setLoggedIn(true);
+          });
+    };
 
+    useEffect(()=>{
+        tokenCheck();
+    }, []);
+
+    useEffect(()=>{
+        if(loggedIn){
+            history.push("/")
+        }
+    }, [loggedIn]);
+
+    const onLogin = (data)=>{
+        return apiAuth
+            .authorize(data)
+            .then(({jwt, user: {email, password}})=>
+            {
+                setUserInfo({email, password});
+                setLoggedIn(true);
+                localStorage.setItem('jwt', jwt);
+            });
+    }
+
+    const onRegister = (data)=>{
+        return apiAuth
+            .register(data)
+            .then(()=>{
+                history.push("/login");
+            })
     }
 
   return (
@@ -166,7 +208,7 @@ function App() {
                   linkToAuth="/login"
                   linkTitle="Войти"
               />
-              <Register onLogin={onLogin}/>
+              <Register onRegister={onRegister}/>
           </Route>
       <ProtectedRoute>
       <Main
