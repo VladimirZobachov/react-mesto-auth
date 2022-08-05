@@ -64,8 +64,10 @@
 @import url("./blocks/popup/__error-message/_visible/popup__error-message_visible.css");
 @import url("./blocks/popup/__button/_disabled/popup__button_disabled.css");
 @import url("./blocks/login/login.css");
-@import url("./blocks/login/login__title/login__title.css");
-@import url("./blocks/login/form/login__form.css");
-@import url("./blocks/login/form/login__form-input.css");
-@import url("./blocks/login/button-container/login__button-container.css");
-@import url("./blocks/login/link/login__link.css");
+@import url("blocks/login/__title/login__title.css");
+@import url("blocks/login/__form/login__form.css");
+@import url("blocks/login/__form-input/login__form-input.css");
+@import url("blocks/login/__button-container/login__button-container.css");
+@import url("blocks/login/__link/login__link.css");
+@import url("./blocks/header/__auth-link/header__auth-link.css");
+@import url("./blocks/login/__bottom-title/login__bottom-title.css");

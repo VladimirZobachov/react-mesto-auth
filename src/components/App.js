@@ -13,6 +13,7 @@ import {Route, useHistory, withRouter} from "react-router-dom";
 import ProtectedRoute from "./ProtectedRouter";
 import Login from "./Login";
 import {Switch} from "react-router-dom";
+import Register from "./Register";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -151,10 +152,21 @@ function App() {
   return (
       <CurrentUserContext.Provider value={currentUser}>
 
-      <Header/>
+
       <Switch>
           <Route path="/login">
+              <Header
+                  linkToAuth="/register"
+                  linkTitle="Регистрация"
+              />
               <Login onLogin={onLogin}/>
+          </Route>
+          <Route path="/register">
+              <Header
+                  linkToAuth="/login"
+                  linkTitle="Войти"
+              />
+              <Register onLogin={onLogin}/>
           </Route>
       <ProtectedRoute>
       <Main
