@@ -9,6 +9,10 @@ import api from "../utils/api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import {Route, useHistory, withRouter} from "react-router-dom";
+import ProtectedRoute from "./ProtectedRouter";
+import Login from "./Login";
+import {Switch} from "react-router-dom";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -18,6 +22,8 @@ function App() {
     const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
     const [currentUser, setCurrentUser] = useState('');
     const [cards, setCards] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const history = useHistory();
 
     useEffect(()=>{
         api.getUser()
@@ -138,11 +144,19 @@ function App() {
 
     }
 
+    function onLogin(){
+
+    }
+
   return (
       <CurrentUserContext.Provider value={currentUser}>
 
       <Header/>
-
+      <Switch>
+          <Route path="/login">
+              <Login onLogin={onLogin}/>
+          </Route>
+      <ProtectedRoute>
       <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
@@ -153,21 +167,17 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
       />
-
-      <Footer/>
-
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}></AddPlacePopup>
-
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-
       <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
+      </ProtectedRoute>
+      </Switch>
+      <Footer/>
 
       </CurrentUserContext.Provider>
   );
 }
 
-export default App;
+export default withRouter(App);

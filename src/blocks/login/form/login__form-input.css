@@ -1,0 +1,13 @@
+.login__form-input{
+    border-style: hidden;
+    border-bottom: solid 1px white;
+    padding-top: 57px;
+    width: 100%;
+    font-family: "Inter", "Arial ", sans-serif;
+    font-size: 14px;
+    color: white;
+    font-weight: 400;
+    line-height: 17px;
+    outline: none;
+    background-color: black;
+}
