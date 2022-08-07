@@ -25,7 +25,7 @@ function Register({onRegister}){
             return;
         }
 
-        onRegister(loginData)
+        onRegister(loginData.email, loginData.password)
             .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
     }
 

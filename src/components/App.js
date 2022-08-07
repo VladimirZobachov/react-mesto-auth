@@ -11,7 +11,7 @@ import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import {Route, useHistory, withRouter} from "react-router-dom";
-import ProtectedRoute from "./ProtectedRouter";
+import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import {Switch} from "react-router-dom";
 import Register from "./Register";
@@ -22,9 +22,10 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isDelPlacePopupOpen, setIsDelPlacePopupOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
+    const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState('');
     const [cards, setCards] = useState([]);
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -49,8 +50,6 @@ function App() {
     }, [])
 
 
-
-
     const handleEditAvatarClick = ()=>{
         setEditAvatar(true);
 
@@ -69,7 +68,7 @@ function App() {
     }
     const handleCardClick = (card)=>{
         setSelectedCard(card);
-
+        setIsImagePopupOpen(true);
     }
     const closeAllPopups = ()=>{
         setEditAvatar(false);
@@ -156,8 +155,8 @@ function App() {
           return;
       }
       apiAuth.getContent(jwt)
-          .then(({email, password}) => {
-              setUserInfo({email, password});
+          .then((res) => {
+              console.log(res);
               setLoggedIn(true);
           });
     };
@@ -172,20 +171,18 @@ function App() {
         }
     }, [loggedIn]);
 
-    const onLogin = (data)=>{
+    const onLogin = (email, password)=>{
         return apiAuth
-            .authorize(data)
-            .then(({jwt, user: {email, password}})=>
+            .authorize(email, password)
+            .then((res)=>
             {
-                setUserInfo({email, password});
-                setLoggedIn(true);
-                localStorage.setItem('jwt', jwt);
+                console.log(res);
             });
     }
 
-    const onRegister = (data)=>{
+    const onRegister = (email, password)=>{
         return apiAuth
-            .register(data)
+            .register(email, password)
             .then(()=>{
                 history.push("/login");
             })
@@ -193,8 +190,6 @@ function App() {
 
   return (
       <CurrentUserContext.Provider value={currentUser}>
-
-
       <Switch>
           <Route path="/login">
               <Header
@@ -210,8 +205,8 @@ function App() {
               />
               <Register onRegister={onRegister}/>
           </Route>
-      <ProtectedRoute>
-      <Main
+      <ProtectedRoute
+          path="/"
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onDelPlace={handleDelPlaceClick}
@@ -220,13 +215,14 @@ function App() {
           cards={cards}
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
+          loggedIn={loggedIn}
+          component={Main}
       />
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}></AddPlacePopup>
-      <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-      <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
-      </ProtectedRoute>
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}></AddPlacePopup>
+          <ImagePopup isOpen={isImagePopupOpen} card={selectedCard} onClose={closeAllPopups}/>
+          <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
       </Switch>
       <Footer/>
 

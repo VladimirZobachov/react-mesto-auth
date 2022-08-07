@@ -24,8 +24,7 @@ function Login({onLogin}){
         if(!loginData.email || !loginData.password){
             return;
         }
-
-        onLogin(loginData)
+        onLogin(loginData.email, loginData.password)
             .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
     }
 
