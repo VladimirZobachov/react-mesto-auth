@@ -158,17 +158,6 @@ function App() {
           });
     };
 
-    useEffect(()=>{
-        tokenCheck();
-    }, []);
-
-    useEffect(()=>{
-        if(loggedIn) {
-            history.push("/register")
-            console.log(`loggedIn: ${loggedIn}`);
-        }
-    }, [loggedIn, history]);
-
     const onLogin = (email, password)=>{
         return apiAuth
             .authorize(email, password)
@@ -176,7 +165,7 @@ function App() {
             {
                 localStorage.setItem('jwt', jwt);
                 setLoggedIn(true);
-                console.log(`jwt: ${jwt}`);
+                console.log(`loggedIn: ${loggedIn}`);
             });
     }
 
@@ -188,9 +177,19 @@ function App() {
             })
     }
 
+    useEffect(()=>{
+        tokenCheck();
+    }, []);
+
+    useEffect(()=>{
+        if(loggedIn) {
+            history.push("/")
+            console.log(`loggedIn: ${loggedIn}`);
+        }
+    }, [loggedIn, history]);
+
   return (
       <CurrentUserContext.Provider value={currentUser}>
-      <Router history={history}>
       <Switch>
           <Route path="/login">
               <Header
@@ -206,7 +205,7 @@ function App() {
               />
               <Register onRegister={onRegister}/>
           </Route>
-          <ProtectedRoute path="/cards"
+          <ProtectedRoute path="/"
                           onEditProfile={handleEditProfileClick}
                           onAddPlace={handleAddPlaceClick}
                           onDelPlace={handleDelPlaceClick}
@@ -225,7 +224,6 @@ function App() {
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
       <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
       <Footer/>
-      </Router>
       </CurrentUserContext.Provider>
   );
 }
