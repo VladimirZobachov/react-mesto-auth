@@ -15,12 +15,14 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "./Login";
 import {Switch} from "react-router-dom";
 import Register from "./Register";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
     const [isDelPlacePopupOpen, setIsDelPlacePopupOpen] = useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
     const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
     const [currentUser, setCurrentUser] = useState('');
     const [cards, setCards] = useState([]);
@@ -73,6 +75,7 @@ function App() {
         setEditProfile(false);
         setAddPlace(false);
         setSelectedCard({name: '', link: ''});
+        setInfoTooltip(false);
 
     }
 
@@ -111,6 +114,10 @@ function App() {
 
     function setEditAvatar(value){
         setIsEditAvatarPopupOpen(value);
+    }
+
+    function setInfoTooltip(value){
+        setIsInfoTooltipOpen(value);
     }
 
     function handleUpdateUser(user){
@@ -165,7 +172,8 @@ function App() {
             {
                 localStorage.setItem('jwt', jwt);
                 setLoggedIn(true);
-                console.log(`loggedIn: ${loggedIn}`);
+                setInfoTooltip(true);
+                console.log(localStorage.getItem('jwt'));
             });
     }
 
@@ -175,6 +183,11 @@ function App() {
             .then(()=>{
                 history.push("/login");
             })
+    }
+
+    const onLogout = ()=>{
+        localStorage.removeItem('jwt');
+        setLoggedIn(false);
     }
 
     useEffect(()=>{
@@ -190,19 +203,12 @@ function App() {
 
   return (
       <CurrentUserContext.Provider value={currentUser}>
+      <Header loggedIn={loggedIn} />
       <Switch>
           <Route path="/login">
-              <Header
-                  linkToAuth="/register"
-                  linkTitle="Регистрация"
-              />
               <Login onLogin={onLogin}/>
           </Route>
           <Route path="/register">
-              <Header
-                  linkToAuth="/login"
-                  linkTitle="Войти"
-              />
               <Register onRegister={onRegister}/>
           </Route>
           <ProtectedRoute path="/"
@@ -223,6 +229,7 @@ function App() {
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}></AddPlacePopup>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
       <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
+      <InfoTooltip title={`${loggedIn ? "Вы успешно авторизованы" : "Что-то пошло не так"} `} name="del-card" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} loggedIn={loggedIn}/>
       <Footer/>
       </CurrentUserContext.Provider>
   );
