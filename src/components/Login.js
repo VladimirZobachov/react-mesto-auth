@@ -9,8 +9,6 @@ function Login({onLogin}) {
         }
     )
 
-    const [message, setMessage] = useState('');
-
     const handleChange = (e) => {
         const {name, value} = e.target;
         setLoginData({
@@ -24,8 +22,7 @@ function Login({onLogin}) {
         if (!loginData.email || !loginData.password) {
             return;
         }
-        onLogin(loginData.email, loginData.password)
-            .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
+        onLogin(loginData.email, loginData.password);
     }
 
     return (

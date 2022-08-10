@@ -1,5 +1,12 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+function check(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(res.status);
+}
+
 export const register = (email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
@@ -11,14 +18,8 @@ export const register = (email, password) => {
             "email": email
         }),
     })
-        .then((response) => {
-            return response.json();
-        })
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            console.log(err);
+        .then((res)=>{
+            check(res);
         })
 }
 
@@ -33,14 +34,8 @@ export const authorize = (email, password) => {
             "email": email
         }),
     })
-        .then((response) => {
-            return response.json();
-        })
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            console.log(err);
+        .then((res)=>{
+            check(res);
         })
 }
 
@@ -52,13 +47,7 @@ export const getContent = (jwt) => {
             'Authorization': `Bearer ${jwt}`,
         }
     })
-        .then((response) => {
-            return response.json();
-        })
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            console.log(err);
+        .then((res)=>{
+            check(res);
         })
 }

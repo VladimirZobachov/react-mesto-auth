@@ -9,8 +9,6 @@ function Register({onRegister}) {
         }
     )
 
-    const [message, setMessage] = useState('');
-
     const handleChange = (e) => {
         const {name, value} = e.target;
         setLoginData({
@@ -25,8 +23,7 @@ function Register({onRegister}) {
             return;
         }
 
-        onRegister(loginData.email, loginData.password)
-            .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
+        onRegister(loginData.email, loginData.password);
     }
 
     return (
@@ -40,7 +37,7 @@ function Register({onRegister}) {
                        value={loginData.password} onChange={handleChange} type="password" placeholder="Пароль"/>
                 <div className="login__button-container">
                     <button type="submit" className="login__link">Зарегистрироваться</button>
-                    <p className="login__bottom-title">Уже зарегистрированы? Войти</p>
+                    <a href="/signup" className="login__bottom-title">Уже зарегистрированы? Войти</a>
                 </div>
             </form>
         </div>

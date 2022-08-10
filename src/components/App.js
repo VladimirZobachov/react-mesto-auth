@@ -6,7 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import * as apiAuth from "./apiAuth";
+import * as apiAuth from "../utils/apiAuth";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -219,7 +219,7 @@ function App() {
                 <Route path="/signup">
                     <Register onRegister={onRegister}/>
                 </Route>
-                <ProtectedRoute path="/"
+                <ProtectedRoute exact path="/"
                                 onEditProfile={handleEditProfileClick}
                                 onAddPlace={handleAddPlaceClick}
                                 onDelPlace={handleDelPlaceClick}
@@ -241,7 +241,9 @@ function App() {
             <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen}
                            onClose={closeAllPopups}/>
             <InfoTooltip statusOk={statusInfoToolTip} name="del-card" isOpen={isInfoTooltipOpen}
-                         onClose={closeAllPopups} loggedIn={loggedIn}/>
+                         onClose={closeAllPopups} loggedIn={loggedIn} textStatusOk="Вы успешно зарегистрировались!"
+                         textStatusErr="Что-то пошло не так! Попробуйте ещё раз."
+                         />
             <Footer/>
         </CurrentUserContext.Provider>
     );
