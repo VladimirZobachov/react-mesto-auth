@@ -184,7 +184,7 @@ function App() {
         return apiAuth
             .register(email, password)
             .then(()=>{
-                history.push("/login");
+                history.push("/signin");
                 setStatusInfoToolTip(true);
                 setInfoTooltip(true);
             })
@@ -209,10 +209,10 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
       <Header onLogout={onLogout} userInfo={userInfo}/>
       <Switch>
-          <Route path="/login">
+          <Route path="/signin">
               <Login onLogin={onLogin}/>
           </Route>
-          <Route path="/register">
+          <Route path="/signup">
               <Register onRegister={onRegister}/>
           </Route>
           <ProtectedRoute path="/"
