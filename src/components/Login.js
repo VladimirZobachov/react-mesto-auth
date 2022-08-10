@@ -28,7 +28,6 @@ function Login({onLogin}) {
     return (
         <div onSubmit={handleSubmit} className="login">
             <p className="login__title">Вход</p>
-            <p className="login__error">{message}</p>
             <form className="login__form">
                 <input className="login__form-input" id="email" required name="email" autoComplete="email"
                        value={loginData.email} onChange={handleChange} type="email" placeholder="Email"/>

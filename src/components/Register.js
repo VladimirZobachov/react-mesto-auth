@@ -22,14 +22,12 @@ function Register({onRegister}) {
         if (!loginData.email || !loginData.password) {
             return;
         }
-
         onRegister(loginData.email, loginData.password);
     }
 
     return (
         <div className="login">
             <p className="login__title">Регистрация</p>
-            <p className="login__error">{message}</p>
             <form className="login__form" onSubmit={handleSubmit}>
                 <input className="login__form-input" id="email" required name="email" autoComplete="email"
                        value={loginData.email} onChange={handleChange} type="email" placeholder="Email"/>
