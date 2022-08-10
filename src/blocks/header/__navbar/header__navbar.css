@@ -1,0 +1,6 @@
+.header__navbar{
+    display: flex;
+    flex-direction: row;
+    min-width: 30%;
+    justify-content: flex-end;
+}

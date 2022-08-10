@@ -27,9 +27,9 @@ function App() {
     const [currentUser, setCurrentUser] = useState('');
     const [cards, setCards] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [statusInfoToolTip, setStatusInfoToolTip] = useState(false);
     const [userInfo, setUserInfo] = useState({
-        email: '',
-        password: '',
+        email: ''
     })
     const history = useHistory();                         
 
@@ -50,10 +50,8 @@ function App() {
             });
     }, [])
 
-
     const handleEditAvatarClick = ()=>{
         setEditAvatar(true);
-
     }
     const handleEditProfileClick = ()=>{
         setEditProfile(true);
@@ -156,24 +154,29 @@ function App() {
 
     const tokenCheck = () => {
       const jwt = localStorage.getItem('jwt');
-      if(jwt){
+      if(!jwt){
           return;
       }
       apiAuth.getContent(jwt)
           .then((res) => {
               setLoggedIn(true);
+              setUserInfo({"email": res.data.email});
           });
     };
 
     const onLogin = (email, password)=>{
         return apiAuth
             .authorize(email, password)
-            .then((jwt)=>
+            .then(({token})=>
             {
-                localStorage.setItem('jwt', jwt);
-                setLoggedIn(true);
-                setInfoTooltip(true);
-                console.log(localStorage.getItem('jwt'));
+                    if(token){
+                    localStorage.setItem('jwt', token);
+                    setLoggedIn(true);
+                    setUserInfo({"email": email});
+                    }else{
+                        setStatusInfoToolTip(false);
+                        setInfoTooltip(true);
+                    }
             });
     }
 
@@ -182,6 +185,8 @@ function App() {
             .register(email, password)
             .then(()=>{
                 history.push("/login");
+                setStatusInfoToolTip(true);
+                setInfoTooltip(true);
             })
     }
 
@@ -197,13 +202,12 @@ function App() {
     useEffect(()=>{
         if(loggedIn) {
             history.push("/")
-            console.log(`loggedIn: ${loggedIn}`);
         }
     }, [loggedIn, history]);
 
   return (
       <CurrentUserContext.Provider value={currentUser}>
-      <Header loggedIn={loggedIn} />
+      <Header onLogout={onLogout} userInfo={userInfo}/>
       <Switch>
           <Route path="/login">
               <Login onLogin={onLogin}/>
@@ -229,7 +233,7 @@ function App() {
       <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlace}></AddPlacePopup>
       <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
       <PopupWithForm title="Вы уверены?" name="del-card" titleButton="Да" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups}/>
-      <InfoTooltip title={`${loggedIn ? "Вы успешно авторизованы" : "Что-то пошло не так"} `} name="del-card" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} loggedIn={loggedIn}/>
+      <InfoTooltip statusOk={statusInfoToolTip} name="del-card" isOpen={isInfoTooltipOpen} onClose={closeAllPopups} loggedIn={loggedIn}/>
       <Footer/>
       </CurrentUserContext.Provider>
   );

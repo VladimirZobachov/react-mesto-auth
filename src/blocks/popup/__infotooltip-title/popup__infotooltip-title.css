@@ -1,0 +1,14 @@
+.popup__infotooltip-title{
+    font-family: "Inter", "Arial ", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+    padding-top: 32px;
+    padding-bottom: 60px;
+    margin: 0;
+}
+@media all and (max-width: 521px){
+    .popup__infotooltip-title{
+        font-size: 18px;
+    }
+}

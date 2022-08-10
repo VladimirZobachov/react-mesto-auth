@@ -44,21 +44,21 @@ export const authorize = (email, password) => {
         })
 }
 
-export const getContent = (jwt)=>{
-    return fetch(`${BASE_URL}/users/me`, {
-        method: 'GET',
-        headers: {
-            'Content/type': 'application/json',
-            'Authorization': `Bearer ${jwt}`
-        }
-    })
-        .then((response)=>{
-            return response.json();
+    export const getContent = (jwt)=>{
+        return fetch(`${BASE_URL}/users/me`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${jwt}`,
+            }
         })
-        .then((res)=>{
-            return res;
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-}
+            .then((response)=>{
+                return response.json();
+            })
+            .then((res)=>{
+                return res;
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+    }
