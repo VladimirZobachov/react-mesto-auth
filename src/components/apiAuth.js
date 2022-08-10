@@ -10,14 +10,14 @@ export const register = (email, password) => {
             "password": password,
             "email": email
         }),
-})
-        .then((response)=>{
+    })
+        .then((response) => {
             return response.json();
         })
-        .then((res)=>{
+        .then((res) => {
             return res;
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err);
         })
 }
@@ -33,32 +33,32 @@ export const authorize = (email, password) => {
             "email": email
         }),
     })
-        .then((response)=>{
+        .then((response) => {
             return response.json();
         })
-        .then((res)=>{
+        .then((res) => {
             return res;
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.log(err);
         })
 }
 
-    export const getContent = (jwt)=>{
-        return fetch(`${BASE_URL}/users/me`, {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${jwt}`,
-            }
+export const getContent = (jwt) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${jwt}`,
+        }
+    })
+        .then((response) => {
+            return response.json();
         })
-            .then((response)=>{
-                return response.json();
-            })
-            .then((res)=>{
-                return res;
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
-    }
+        .then((res) => {
+            return res;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}

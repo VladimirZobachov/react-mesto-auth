@@ -13,21 +13,25 @@ function Card(props) {
     function handleClick() {
         props.onCardClick(props.card);
     }
-    function handleLikeClick(){
+
+    function handleLikeClick() {
         props.onCardLike(props.card);
     }
-    function handleDeleteClick(){
+
+    function handleDeleteClick() {
         props.onCardDelete(props.card);
     }
 
-    return(
+    return (
         <li className="gallery__item">
             <button arria-lable="Del" type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}/>
             <img className="gallery__img" alt={props.card.link} src={props.card.link} onClick={handleClick}/>
             <div className="gallery__item-info">
                 <h2 className="gallery__item-title">{props.card.name}</h2>
                 <div className="gallery__likes">
-                    <button aria-label="Like" type="button" className = {`gallery__like ${isLiked ? cardLikeButtonClassName : ''}`} onClick={handleLikeClick}/>
+                    <button aria-label="Like" type="button"
+                            className={`gallery__like ${isLiked ? cardLikeButtonClassName : ''}`}
+                            onClick={handleLikeClick}/>
                     <span className="gallery__like-count">{props.card.likes.length}</span>
                 </div>
             </div>

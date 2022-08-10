@@ -1,7 +1,7 @@
 import React from "react";
 import {useState} from "react";
 
-function Register({onRegister}){
+function Register({onRegister}) {
     const [loginData, setLoginData] = useState(
         {
             email: '',
@@ -21,7 +21,7 @@ function Register({onRegister}){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!loginData.email || !loginData.password){
+        if (!loginData.email || !loginData.password) {
             return;
         }
 
@@ -34,8 +34,10 @@ function Register({onRegister}){
             <p className="login__title">Регистрация</p>
             <p className="login__error">{message}</p>
             <form className="login__form" onSubmit={handleSubmit}>
-                <input className="login__form-input" id="email" required name="email" autoComplete="email" value={loginData.email} onChange={handleChange} type="email" placeholder="Email"/>
-                <input className="login__form-input" id="password" required name="password" autoComplete="password" value={loginData.password} onChange={handleChange} type="password" placeholder="Пароль"/>
+                <input className="login__form-input" id="email" required name="email" autoComplete="email"
+                       value={loginData.email} onChange={handleChange} type="email" placeholder="Email"/>
+                <input className="login__form-input" id="password" required name="password" autoComplete="password"
+                       value={loginData.password} onChange={handleChange} type="password" placeholder="Пароль"/>
                 <div className="login__button-container">
                     <button type="submit" className="login__link">Зарегистрироваться</button>
                     <p className="login__bottom-title">Уже зарегистрированы? Войти</p>

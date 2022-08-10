@@ -31,18 +31,19 @@ function EditProfilePopup(props) {
         setDescription(e.target.value);
     }
 
-    return(
-    <PopupWithForm title="Редактировать профиль" name="edit" titleButton="Сохранить"
-                   isOpen={props.isOpen}
-                   onClose={props.onClose}
-                   onSubmit={handleSubmit}>
-        <input type="text" className="popup__input popup__input_type_name" placeholder="Имя" name="name" id="name"
-               required minLength="2" maxLength="40" value={name || ''} onChange={handleChangeName}/>
-        <span className="popup__error-message popup__error-message_name"/>
-        <input type="text" className="popup__input popup__input_type_major" placeholder="Призвание" name="major"
-               id="major" required minLength="2" maxLength="200" value={description || ''} onChange={handleChangeDescription}/>
-        <span className="popup__error-message popup__error-message_major"/>
-    </PopupWithForm>
+    return (
+        <PopupWithForm title="Редактировать профиль" name="edit" titleButton="Сохранить"
+                       isOpen={props.isOpen}
+                       onClose={props.onClose}
+                       onSubmit={handleSubmit}>
+            <input type="text" className="popup__input popup__input_type_name" placeholder="Имя" name="name" id="name"
+                   required minLength="2" maxLength="40" value={name || ''} onChange={handleChangeName}/>
+            <span className="popup__error-message popup__error-message_name"/>
+            <input type="text" className="popup__input popup__input_type_major" placeholder="Призвание" name="major"
+                   id="major" required minLength="2" maxLength="200" value={description || ''}
+                   onChange={handleChangeDescription}/>
+            <span className="popup__error-message popup__error-message_major"/>
+        </PopupWithForm>
     )
 }
 
