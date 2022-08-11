@@ -50,7 +50,7 @@ function App() {
                     console.log(err);
                 });
         }
-    }, [])
+    }, [loggedIn])
 
     const handleEditAvatarClick = () => {
         setEditAvatar(true);
@@ -163,6 +163,9 @@ function App() {
             .then((res) => {
                 setLoggedIn(true);
                 setUserInfo({"email": res.data.email});
+            })
+            .catch((err)=>{
+                console.log(err);
             });
     };
 
